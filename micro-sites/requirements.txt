@@ -1,0 +1,7 @@
+bareasgi>=2.0<3
+bareasgi_jinja2>=2.0<3
+bareclient>=2.0<3
+easydict~=1.9
+PyJWT~=1.7
+PyYaml>=5.1<6
+uvicorn>=0.7<1

@@ -1,0 +1,37 @@
+app:
+  port: 10201
+  login_expiry: 1d
+  auth_host: $MICRO_HOST
+  path_prefix: /micro-site/auth
+  token_renewal_path: /renew_token
+
+token_manager:
+  cookie_name: micro_auth
+  secret: "not so secret"
+  token_expiry: 1h
+  domain: $MICRO_DOMAIN
+  issuer: $MICRO_DOMAIN
+  path: /authenticate
+  max_age: 1d1h
+
+logging:
+  version: 1
+  formatters:
+    simple:
+      format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  handlers:
+    stdout:
+      class: logging.StreamHandler
+      level: DEBUG
+      formatter: simple
+      stream: ext://sys.stdout
+  loggers:
+    micro_sites:
+      level: DEBUG
+      handlers:
+        - stdout
+      propagate: false
+  root:
+    level: DEBUG
+    handlers:
+      - stdout
