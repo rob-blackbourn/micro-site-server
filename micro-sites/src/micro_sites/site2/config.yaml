@@ -1,8 +1,8 @@
 app:
-  port: 10201
+  port: 10204
   login_expiry: 5m
-  path_prefix: /micro-site/auth
-  token_renewal_path: /renew_token
+  path_prefix: /micro-site/site2/api
+  token_renewal_path: /micro-site/auth/renew_token
 
 token_manager:
   cookie_name: micro_auth

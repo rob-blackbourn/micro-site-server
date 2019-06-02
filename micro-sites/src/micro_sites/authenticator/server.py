@@ -1,4 +1,5 @@
 from bareasgi import Application
+from bareasgi_cors import CORSMiddleware
 import bareasgi_jinja2
 from easydict import EasyDict as edict
 import jinja2
@@ -23,7 +24,9 @@ def load_config():
 def make_app(config: edict) -> Application:
     templates_folder = pkg_resources.resource_filename('micro_sites.authenticator', 'templates')
 
-    app = Application()
+    cors_middleware = CORSMiddleware()
+
+    app = Application(middlewares=[cors_middleware])
 
     env = jinja2.Environment(
         loader=jinja2.FileSystemLoader(templates_folder),
@@ -46,15 +49,14 @@ def make_app(config: edict) -> Application:
         secret,
         token_expiry,
         issuer,
-        cookie_name.encode('ascii'),
-        domain.encode('ascii'),
-        path.encode('ascii'),
+        cookie_name,
+        domain,
+        path,
         max_age
     )
 
-    auth_host = os.path.expandvars(config.app.auth_host)
     token_renewal_path = config.app.path_prefix + config.app.token_renewal_path
-    authenticator = JwtAuthenticator(auth_host, token_renewal_path, token_manager)
+    authenticator = JwtAuthenticator(token_renewal_path, token_manager)
 
     auth_controller = AuthController(
         config.app.path_prefix,
