@@ -1,10 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import Page1 from './Page1'
 import Page2 from './Page2'
 import ExternalRoute from './ExternalRoute'
 import { SITE_NAVIGATOR_URL } from '../config'
+
+const styles = theme => ({
+
+})
 
 class AuthenticatedSite extends React.Component {
   state = {
@@ -84,4 +89,4 @@ AuthenticatedSite.propTypes = {
   authenticator: PropTypes.object.isRequired
 }
 
-export default AuthenticatedSite
+export default withStyles(styles)(AuthenticatedSite)

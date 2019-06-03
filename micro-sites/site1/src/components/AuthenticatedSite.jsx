@@ -1,18 +1,31 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { Route } from 'react-router-dom'
+import DashboardRouter from './DashboardRouter'
 import Page1 from './Page1'
 import Page2 from './Page2'
-import ExternalRoute from './ExternalRoute'
 import { SITE_NAVIGATOR_URL } from '../config'
 
 class AuthenticatedSite extends React.Component {
   state = {
-    sites: []
+    applications: []
   }
-  pages = [
-    { name: 'Page1', path: '/page1/' },
-    { name: 'Page2', path: '/page2/' }
+
+  links = [
+    {
+      code: 'page1',
+      title: 'Page1',
+      description: 'First page',
+      path: '/page1/',
+      icon: 'shopping_cart'
+    },
+    {
+      code: 'page2',
+      title: 'Page2',
+      description: 'Second page',
+      path: '/page2/',
+      icon: 'history'
+    }
   ]
 
   componentDidMount () {
@@ -25,7 +38,15 @@ class AuthenticatedSite extends React.Component {
         }
         return response.json()
       }).then(sites => {
-        this.setState({ sites: sites.filter(({ name, url }) => !window.location.pathname.startsWith(url)) })
+        const applications = sites.map(({ code, title, description, url, icon }) => ({
+          code,
+          title,
+          description,
+          url,
+          icon,
+          disabled: !window.location.pathname.startsWith(url)
+        }))
+        this.setState({ applications })
       }).catch(error => {
         console.error(error)
       })
@@ -40,38 +61,22 @@ class AuthenticatedSite extends React.Component {
   }
 
   render () {
-    const { sites } = this.state
+    const { applications } = this.state
 
     return (
-      <Router basename='/micro-site/site1/ui'>
-        <div>
-          <h1>Site 1</h1>
-          <nav>
-            <ul>
-              {this.pages.map(({ name, path }) => (
-                <li key={name}>
-                  <Link to={path}>{name}</Link>
-                </li>
-              ))}
-              {sites.map(({ name, path, url }) => (
-                <li key={name}>
-                  {/* <a href={url} target='_self'>{name}</a> */}
-                  <Link to={path}>{name}</Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          <Route path='/' exact component={this.renderPage1} />
-          <Route path='/page1/' component={this.renderPage1} />
-          <Route path='/page2/' component={this.renderPage2} />
-
-          {sites.map(({ name, path, url }) => (
-            <ExternalRoute key={path} exact path={path} link={url} />
-          ))}
-
-        </div>
-      </Router>
+      <DashboardRouter
+        title='Site 1'
+        basename='/micro-site/site1/ui'
+        applications={applications}
+        routes={() => (
+          <React.Fragment>
+            <Route exact path='/' component={this.renderPage1} />
+            <Route path='/page1' component={this.renderPage1} />
+            <Route path='/page2' component={this.renderPage2} />
+          </React.Fragment>
+        )}
+        links={this.links}
+      />
     )
   }
 }

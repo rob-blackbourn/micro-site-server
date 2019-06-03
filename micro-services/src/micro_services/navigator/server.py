@@ -18,14 +18,18 @@ async def get_sites(scope, info, matches, content):
         None,
         [
             {
-                'name': 'Site1',
-                'path': '/site1/',
-                'url': '/micro-site/site1/ui/page1'
+                'code': 'site1',
+                'title': 'Site1',
+                'description': 'This first site',
+                'url': '/micro-site/site1/ui/page1',
+                'icon': 'dashboard'
             },
             {
-                'name': 'Site2',
-                'path': '/site2/',
-                'url': '/micro-site/site2/ui/page1'
+                'code': 'site2',
+                'title': 'Site2',
+                'description': 'The second site',
+                'url': '/micro-site/site2/ui/page1',
+                'icon': 'flight_takeoff'
             },
         ]
     )
