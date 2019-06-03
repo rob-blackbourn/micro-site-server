@@ -31,7 +31,7 @@ async def get_sites(scope, info, matches, content):
 
 def load_config():
     initialise_types()
-    with open(pkg_resources.resource_filename('micro_sites.navigator', 'config.yaml'), 'rt') as fp:
+    with open(pkg_resources.resource_filename(__name__, 'config.yaml'), 'rt') as fp:
         return edict(yaml.load(fp, Loader=yaml.FullLoader))
 
 

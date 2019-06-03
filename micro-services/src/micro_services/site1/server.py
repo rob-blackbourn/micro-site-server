@@ -17,15 +17,25 @@ logger = logging.getLogger(__name__)
 
 def load_config():
     initialise_types()
-    with open(pkg_resources.resource_filename('micro_sites.site1', 'config.yaml'), 'rt') as fp:
+    with open(pkg_resources.resource_filename(__name__, 'config.yaml'), 'rt') as fp:
         return edict(yaml.load(fp, Loader=yaml.FullLoader))
 
 
 # noinspection PyUnusedLocal
-async def get_info(scope, info, matches, content):
+async def get_info1(scope, info, matches, content):
     try:
-        logger.info('GET site1')
-        return json_response(response_code.OK, None, {'message': 'This is not a test'})
+        logger.info('GET site1 info1')
+        return json_response(response_code.OK, None, {'message': 'Site 1 Info 1'})
+    except:
+        logger.exception('Failed to get info')
+        return response_code.INTERNAL_SERVER_ERROR, None, None
+
+
+# noinspection PyUnusedLocal
+async def get_info2(scope, info, matches, content):
+    try:
+        logger.info('GET site1 info2')
+        return json_response(response_code.OK, None, {'message': 'Site 1 Info 2'})
     except:
         logger.exception('Failed to get info')
         return response_code.INTERNAL_SERVER_ERROR, None, None
@@ -53,6 +63,7 @@ def start_server():
     cors_middleware = CORSMiddleware()
 
     app = Application(middlewares=[cors_middleware, authenticator])
-    app.http_router.add({'GET'}, config.app.path_prefix + '/info', get_info)
+    app.http_router.add({'GET'}, config.app.path_prefix + '/info1', get_info1)
+    app.http_router.add({'GET'}, config.app.path_prefix + '/info2', get_info2)
 
     uvicorn.run(app, port=config.app.port)

@@ -1,11 +1,11 @@
 import { hot } from 'react-hot-loader'
 import React from 'react'
 import './App.css'
-import Site from './components/SiteAuthenticationProvider'
+import SiteAuthenticationProvider from './components/SiteAuthenticationProvider'
 
 const App = () => (
   <div className='App'>
-    <Site />
+    <SiteAuthenticationProvider />
   </div>
 )
 

@@ -1,17 +1,17 @@
 app:
   port: 10204
-  login_expiry: 5m
+  login_expiry: 1d
   path_prefix: /micro-site/site2/api
   token_renewal_path: /micro-site/auth/renew_token
 
 token_manager:
   cookie_name: micro_auth
   secret: "not so secret"
-  token_expiry: 1m
+  token_expiry: 1h
   domain: $MICRO_DOMAIN
   issuer: $MICRO_DOMAIN
   path: /
-  max_age: 1d1h
+  max_age: 1d
 
 logging:
   version: 1

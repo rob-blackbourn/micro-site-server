@@ -17,12 +17,12 @@ from micro_services.utils.token_manager import TokenManager
 
 def load_config():
     initialise_types()
-    with open(pkg_resources.resource_filename('micro_sites.authenticator', 'config.yaml'), 'rt') as fp:
+    with open(pkg_resources.resource_filename(__name__, 'config.yaml'), 'rt') as fp:
         return edict(yaml.load(fp, Loader=yaml.FullLoader))
 
 
 def make_app(config: edict) -> Application:
-    templates_folder = pkg_resources.resource_filename('micro_sites.authenticator', 'templates')
+    templates_folder = pkg_resources.resource_filename(__name__, 'templates')
 
     cors_middleware = CORSMiddleware()
 
