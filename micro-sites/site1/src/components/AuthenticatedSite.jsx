@@ -11,8 +11,8 @@ class AuthenticatedSite extends React.Component {
     sites: []
   }
   pages = [
-    { name: 'Page1', url: '/page1/' },
-    { name: 'Page2', url: '/page2/' }
+    { name: 'Page1', path: '/page1/' },
+    { name: 'Page2', path: '/page2/' }
   ]
 
   componentDidMount () {
@@ -31,7 +31,7 @@ class AuthenticatedSite extends React.Component {
       })
   }
 
-  renderPage1 = () => {
+  renderPage1 = ({ ...renderProps }) => {
     return <Page1 authenticator={this.props.authenticator} />
   }
 
@@ -48,14 +48,14 @@ class AuthenticatedSite extends React.Component {
           <h1>Site 1</h1>
           <nav>
             <ul>
-              {this.pages.map(({ name, url }) => (
+              {this.pages.map(({ name, path }) => (
                 <li key={name}>
-                  <Link to={url}>{name}</Link>
+                  <Link to={path}>{name}</Link>
                 </li>
               ))}
               {sites.map(({ name, path, url }) => (
                 <li key={name}>
-                  {/* <a href={url} target='_blank'>{name}</a> */}
+                  {/* <a href={url} target='_self'>{name}</a> */}
                   <Link to={path}>{name}</Link>
                 </li>
               ))}
@@ -67,7 +67,7 @@ class AuthenticatedSite extends React.Component {
           <Route path='/page2/' component={this.renderPage2} />
 
           {sites.map(({ name, path, url }) => (
-            <ExternalRoute exact path={path} link={url} />
+            <ExternalRoute key={path} exact path={path} link={url} />
           ))}
 
         </div>

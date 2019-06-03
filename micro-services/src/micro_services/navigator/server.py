@@ -20,12 +20,12 @@ async def get_sites(scope, info, matches, content):
             {
                 'name': 'Site1',
                 'path': '/site1/',
-                'url': '/micro-site/site1/ui/'
+                'url': '/micro-site/site1/ui/page1'
             },
             {
                 'name': 'Site2',
                 'path': '/site2/',
-                'url': '/micro-site/site2/ui/'
+                'url': '/micro-site/site2/ui/page1'
             },
         ]
     )
