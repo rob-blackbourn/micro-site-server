@@ -4,6 +4,12 @@ An example micro site/server architecture
 
 # Config
 
+
+# Chrome
+
+See here: https://stackoverflow.com/questions/50788043/how-to-trust-self-signed-localhost-certificates-on-linux-chrome-and-firefox
+And here: https://fabianlee.org/2018/02/17/ubuntu-creating-a-trusted-ca-and-san-certificate-using-openssl-on-ubuntu/
+
 ## nginx
 
 ```bash
