@@ -15,15 +15,15 @@ module.exports = {
       html: {
         title: 'site1'
       },
-      publicPath: '/micro-site/site1/ui/',
+      publicPath: '/micro-site/site2/ui/',
       devServer: {
-        port: 10301,
+        port: 10302,
         disableHostCheck: true,
         historyApiFallback: {
           rewrites: [
             {
-              from: /^\/micro-site\/site1\/ui\/.+$/,
-              to: '/micro-site/site1/ui/',
+              from: /^\/micro-site\/site2\/ui\/.+$/,
+              to: '/micro-site/site2/ui/',
             },
           ],
         },

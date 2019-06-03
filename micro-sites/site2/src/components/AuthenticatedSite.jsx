@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import Page1 from './Page1'
 import Page2 from './Page2'
-import { SITE2_URL } from '../config'
+import { SITE1_URL } from '../config'
 
 class AuthenticatedSite extends React.Component {
   renderPage1 = () => {
@@ -18,7 +18,7 @@ class AuthenticatedSite extends React.Component {
     return (
       <Router basename='/micro-site/site1/ui'>
         <div>
-          <h1>Site 1</h1>
+          <h1>Site 2</h1>
           <nav>
             <ul>
               <li key='home'>
@@ -30,8 +30,8 @@ class AuthenticatedSite extends React.Component {
               <li key='page2'>
                 <Link to='/page2/'>Page2</Link>
               </li>
-              <li key='site2'>
-                <a href={SITE2_URL}>Site2</a>
+              <li key='site1'>
+                <a href={SITE1_URL}>Site1</a>
               </li>
             </ul>
           </nav>
