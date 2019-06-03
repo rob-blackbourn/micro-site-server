@@ -1,3 +1,3 @@
-from micro_sites.site2.server import start_server
+from micro_services.site2.server import start_server
 
 start_server()

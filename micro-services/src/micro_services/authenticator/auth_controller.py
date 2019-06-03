@@ -19,8 +19,8 @@ import logging
 from typing import Mapping, Any
 from urllib.parse import parse_qs, urlparse
 from .auth_service import AuthService
-from micro_sites.utils.auth_middleware import JwtAuthenticator
-from micro_sites.utils.token_manager import TokenManager
+from micro_services.utils.auth_middleware import JwtAuthenticator
+from micro_services.utils.token_manager import TokenManager
 
 logger = logging.getLogger(__name__)
 
@@ -50,6 +50,7 @@ class AuthController:
         self.auth_service = auth_service
         self.authenticator = authenticator
 
+
     def add_routes(self, app: Application) -> Application:
         app.http_router.add({'GET'}, self.path_prefix + '/login', self.login_view)
         app.http_router.add({'POST'}, self.path_prefix + '/authenticate', self.login_post)
@@ -62,12 +63,14 @@ class AuthController:
 
         return app
 
+
     @bareasgi_jinja2.template('login.html')
     async def login_view(self, scope: Scope, info: Info, matches: RouteMatches, content: Content) -> Mapping[str, Any]:
         action = f'{self.path_prefix}/authenticate?{scope["query_string"].decode()}'
         return {
             'action': action
         }
+
 
     async def login_post(self, scope: Scope, info: Info, matches: RouteMatches, content: Content) -> HttpResponse:
         try:
@@ -102,6 +105,7 @@ class AuthController:
             logger.exception('Failed to log in')
             return response_code.FOUND, [(b'location', header.find(b'referer', scope['headers']))], None
 
+
     async def who_am_i(self, scope: Scope, info: Info, matches: RouteMatches, content: Content) -> HttpResponse:
         try:
             token = self.token_manager.get_token_from_headers(scope['headers'])
@@ -117,6 +121,7 @@ class AuthController:
         except:
             logger.exception(f'Failed to re-sign the token')
             return response_code.INTERNAL_SERVER_ERROR, None, None
+
 
     async def renew_token(self, scope: Scope, info: Info, matches: RouteMatches, content: Content) -> HttpResponse:
         try:

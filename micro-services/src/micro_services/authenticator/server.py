@@ -8,11 +8,11 @@ import pkg_resources
 import os
 import uvicorn
 import yaml
-from micro_sites.utils.yaml_types import initialise_types
+from micro_services.utils.yaml_types import initialise_types
 from .auth_controller import AuthController
 from .auth_service import AuthService
-from micro_sites.utils.auth_middleware import JwtAuthenticator
-from micro_sites.utils.token_manager import TokenManager
+from micro_services.utils.auth_middleware import JwtAuthenticator
+from micro_services.utils.token_manager import TokenManager
 
 
 def load_config():
