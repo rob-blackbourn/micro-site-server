@@ -19,11 +19,13 @@ async def get_sites(scope, info, matches, content):
         [
             {
                 'name': 'Site1',
-                'url': '/micro-site/site1/ui'
+                'path': '/site1/',
+                'url': '/micro-site/site1/ui/'
             },
             {
                 'name': 'Site2',
-                'url': '/micro-site/site2/ui'
+                'path': '/site2/',
+                'url': '/micro-site/site2/ui/'
             },
         ]
     )
@@ -57,6 +59,6 @@ def start_server():
     cors_middleware = CORSMiddleware()
 
     app = Application(middlewares=[cors_middleware, authenticator])
-    app.http_router.add({'GET'}, config.app.path_prefix + 'sites', get_sites)
+    app.http_router.add({'GET'}, config.app.path_prefix + '/sites', get_sites)
 
     uvicorn.run(app, port=config.app.port)

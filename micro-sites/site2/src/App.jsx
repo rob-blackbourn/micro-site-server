@@ -1,12 +1,13 @@
 import { hot } from 'react-hot-loader'
 import React from 'react'
-import './App.css'
+import CssBaseline from '@material-ui/core/CssBaseline'
 import SiteAuthenticationProvider from './components/SiteAuthenticationProvider'
 
 const App = () => (
-  <div className='App'>
+  <React.Fragment>
+    <CssBaseline />
     <SiteAuthenticationProvider />
-  </div>
+  </React.Fragment>
 )
 
 export default hot(module)(App)
