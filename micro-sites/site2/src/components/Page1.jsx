@@ -1,6 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
 import { SITE2_INFO1_URL } from '../config'
+
+const styles = theme => ({
+  root: {
+    padding: theme.spacing(1)
+  }
+})
 
 class Page1 extends React.Component {
   constructor (props) {
@@ -28,8 +35,10 @@ class Page1 extends React.Component {
   }
 
   render () {
+    const { classes } = this.props
+
     return (
-      <div>
+      <div className={classes.root}>
         <p>
           {this.state.message}
         </p>
@@ -39,7 +48,8 @@ class Page1 extends React.Component {
 }
 
 Page1.propTypes = {
+  classes: PropTypes.object.isRequired,
   authenticator: PropTypes.object.isRequired
 }
 
-export default Page1
+export default withStyles(styles)(Page1)

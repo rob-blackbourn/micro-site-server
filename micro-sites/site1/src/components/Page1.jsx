@@ -5,13 +5,7 @@ import { SITE1_INFO1_URL } from '../config'
 
 const styles = theme => ({
   root: {
-    flexGrow: 1,
-    minWidth: 500,
-    maxWidth: 1500
-  },
-  appBarSpacer: theme.mixins.toolbar,
-  contentTitle: {
-    marginBottom: 35
+    padding: theme.spacing(1)
   }
 })
 
@@ -45,9 +39,6 @@ class Page1 extends React.Component {
 
     return (
       <div className={classes.root}>
-
-        <div className={classes.appBarSpacer} />
-
         <p>
           {this.state.message}
         </p>
