@@ -8,7 +8,7 @@
     <header class="mdl-layout__header-transparent">
         <div class="mdl-grid center-items">
             <div class="mdl-cell mdl-cell--12-col">
-                <h3>Register</h3>
+                <h4>Register</h4>
                 <i class="mdi mdi-48px mdi-lock-outline mdl-color-text--accent"></i>
             </div>
         </div>
@@ -22,6 +22,7 @@
                                type="text"
                                id="username"
                                name="username"
+                               required
                                onkeyup="validateForm()">
                         <label class="mdl-textfield__label" for="username">Username</label>
                     </div>
@@ -33,6 +34,7 @@
                                 type="password"
                                 id="password"
                                 name="password"
+                                required
                                 onkeyup="validateForm()">
                         <label class="mdl-textfield__label" for="password">Password</label>
                     </div>
@@ -44,6 +46,7 @@
                                 type="password"
                                 id="confirm-password"
                                 name="confirm_password"
+                                required
                                 onkeyup="validateForm()">
                         <label class="mdl-textfield__label" for="confirm-password">Confirm password</label>
                     </div>
@@ -87,6 +90,8 @@
         var ok = isFormValid()
         submit.disabled = !ok
     }
+
+
 
 
 </script>
