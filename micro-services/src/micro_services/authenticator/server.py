@@ -11,6 +11,7 @@ import yaml
 from micro_services.utils.yaml_types import initialise_types
 from .auth_controller import AuthController
 from .auth_service import AuthService
+from .auth_provider import MemoryAuthProvider
 from micro_services.utils.auth_middleware import JwtAuthenticator
 from micro_services.utils.token_manager import TokenManager
 
@@ -44,7 +45,7 @@ def make_app(config: edict) -> Application:
     cookie_name = config.token_manager.cookie_name
     max_age = config.token_manager.max_age
 
-    auth_service = AuthService()
+    auth_service = AuthService(MemoryAuthProvider())
     token_manager = TokenManager(
         secret,
         token_expiry,

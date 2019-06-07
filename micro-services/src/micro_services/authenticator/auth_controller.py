@@ -88,7 +88,7 @@ class AuthController:
             username = body['username'][0]
             password = body['password'][0]
 
-            if not self.auth_service.is_password_for_user(username, password):
+            if not await self.auth_service.is_password_for_user(username, password):
                 raise RuntimeError('Invalid username or password')
 
             now = datetime.utcnow()
@@ -132,7 +132,7 @@ class AuthController:
             username = body['username'][0]
             password = body['password'][0]
 
-            if not self.auth_service.register(username, password):
+            if not await self.auth_service.register(username, password):
                 raise RuntimeError('Failed to register user')
 
             now = datetime.utcnow()
