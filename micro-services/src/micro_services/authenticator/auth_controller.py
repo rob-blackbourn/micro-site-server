@@ -50,10 +50,11 @@ class AuthController:
         self.auth_service = auth_service
         self.authenticator = authenticator
 
-
     def add_routes(self, app: Application) -> Application:
         app.http_router.add({'GET'}, self.path_prefix + '/login', self.login_view)
-        app.http_router.add({'POST'}, self.path_prefix + '/authenticate', self.login_post)
+        app.http_router.add({'POST'}, self.path_prefix + '/login', self.login_post)
+        app.http_router.add({'GET'}, self.path_prefix + '/register', self.register_view)
+        app.http_router.add({'POST'}, self.path_prefix + '/register', self.register_post)
         app.http_router.add({'POST'}, self.path_prefix + '/renew_token', self.renew_token)
 
         app.http_router.add(
@@ -63,14 +64,15 @@ class AuthController:
 
         return app
 
-
     @bareasgi_jinja2.template('login.html')
     async def login_view(self, scope: Scope, info: Info, matches: RouteMatches, content: Content) -> Mapping[str, Any]:
-        action = f'{self.path_prefix}/authenticate?{scope["query_string"].decode()}'
+        query_string = scope["query_string"].decode()
+        action = f'{self.path_prefix}/login?{query_string}'
+        register = f'{self.path_prefix}/register?{query_string}'
         return {
-            'action': action
+            'action': action,
+            'register': register
         }
-
 
     async def login_post(self, scope: Scope, info: Info, matches: RouteMatches, content: Content) -> HttpResponse:
         try:
@@ -105,6 +107,49 @@ class AuthController:
             logger.exception('Failed to log in')
             return response_code.FOUND, [(b'location', header.find(b'referer', scope['headers']))], None
 
+    @bareasgi_jinja2.template('register.html')
+    async def register_view(self, scope: Scope, info: Info, matches: RouteMatches, content: Content) -> Mapping[
+        str, Any]:
+        query_string = scope["query_string"].decode()
+        action = f'{self.path_prefix}/register?{query_string}'
+        login = f'{self.path_prefix}/login?{query_string}'
+        return {
+            'action': action,
+            'login': login
+        }
+
+    async def register_post(self, scope: Scope, info: Info, matches: RouteMatches, content: Content) -> HttpResponse:
+        try:
+            query = parse_qs(scope['query_string'])
+            redirect = query.get(b'redirect')
+            if not redirect:
+                logger.debug('No redirect')
+                return text_response(response_code.NOT_FOUND, None, 'No redirect')
+            redirect = redirect[0]
+
+            text = await text_reader(content)
+            body = parse_qs(text)
+            username = body['username'][0]
+            password = body['password'][0]
+
+            if not self.auth_service.register(username, password):
+                raise RuntimeError('Failed to register user')
+
+            now = datetime.utcnow()
+            token = self.token_manager.encode(username, now, now)
+
+            logger.debug(f'Sending token: {token}')
+            urlparts = urlparse(redirect)
+            if urlparts.scheme is None or len(urlparts.scheme) == 0:
+                raise RuntimeError('The redirect URL has no scheme')
+
+            set_cookie = self.token_manager.make_cookie(token)
+
+            return response_code.FOUND, [(b'set-cookie', set_cookie), (b'location', redirect)], None
+
+        except:
+            logger.exception('Failed to log in')
+            return response_code.FOUND, [(b'location', header.find(b'referer', scope['headers']))], None
 
     async def who_am_i(self, scope: Scope, info: Info, matches: RouteMatches, content: Content) -> HttpResponse:
         try:
@@ -121,7 +166,6 @@ class AuthController:
         except:
             logger.exception(f'Failed to re-sign the token')
             return response_code.INTERNAL_SERVER_ERROR, None, None
-
 
     async def renew_token(self, scope: Scope, info: Info, matches: RouteMatches, content: Content) -> HttpResponse:
         try:

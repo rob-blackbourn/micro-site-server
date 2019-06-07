@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% set title = "Login" %}
+
+{% block content %}
+
+<div class="mdl-layout mdl-js-layout">
+    <header class="mdl-layout__header-transparent">
+        <div class="mdl-grid center-items">
+            <div class="mdl-cell mdl-cell--12-col">
+                <h3>Register</h3>
+                <i class="mdi mdi-48px mdi-lock-outline mdl-color-text--accent"></i>
+            </div>
+        </div>
+    </header>
+    <main class="mdl-layout__content">
+        <div class="mdl-grid center-items">
+            <form method="post" action="{{action}}">
+                <div class="mdl-cell mdl-cell--12-col">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input"
+                               type="text"
+                               id="username"
+                               name="username"
+                               onkeyup="validateForm()">
+                        <label class="mdl-textfield__label" for="username">Username</label>
+                    </div>
+                </div>
+                <div class="mdl-cell mdl-cell--12-col">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input
+                                class="mdl-textfield__input"
+                                type="password"
+                                id="password"
+                                name="password"
+                                onkeyup="validateForm()">
+                        <label class="mdl-textfield__label" for="password">Password</label>
+                    </div>
+                </div>
+                <div class="mdl-cell mdl-cell--12-col">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input
+                                class="mdl-textfield__input"
+                                type="password"
+                                id="confirm-password"
+                                name="confirm_password"
+                                onkeyup="validateForm()">
+                        <label class="mdl-textfield__label" for="confirm-password">Confirm password</label>
+                    </div>
+                </div>
+                <div class="mdl-cell mdl-cell--12-col">
+                    <input id="submit"
+                           class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"
+                           type="submit"
+                           title="Login"
+                           disabled>
+                </div>
+                <div class="mdl-cell mdl-cell--12-col">
+                    (or <a href="{{login}}">login</a>)
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+
+<script>
+    function doPasswordsMatch () {
+        var password = document.getElementById("password").value;
+        var confirm_password = document.getElementById("confirm-password").value;
+        if (!!password && !!confirm_password && password == confirm_password) {
+            return true;
+        }
+        return false;
+    }
+
+    function isUsernameValid () {
+        var username = document.getElementById("username").value;
+        return !!username;
+    }
+
+    function isFormValid () {
+        return isUsernameValid() && doPasswordsMatch();
+    }
+
+    function validateForm () {
+        var submit = document.getElementById("submit")
+        var ok = isFormValid()
+        submit.disabled = !ok
+    }
+
+
+</script>
+
+{% endblock %}
